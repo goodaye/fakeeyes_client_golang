@@ -1,0 +1,49 @@
+ cp -rf ../fakeeyes/protos ./
+
+
+
+
+
+
+Mac 硬件信息
+// MATTHEWMU-MB2:~ mangtao$ system_profiler SPHardwareDataType
+// Hardware:
+
+//     Hardware Overview:
+
+//       Model Name: MacBook Pro
+//       Model Identifier: MacBookPro16,1
+//       Processor Name: 6-Core Intel Core i7
+//       Processor Speed: 2.6 GHz
+//       Number of Processors: 1
+//       Total Number of Cores: 6
+//       L2 Cache (per Core): 256 KB
+//       L3 Cache: 12 MB
+//       Hyper-Threading Technology: Enabled
+//       Memory: 16 GB
+//       System Firmware Version: 1715.60.5.0.0 (iBridge: 19.16.10647.0.0,0)
+//       OS Loader Version: 540.60.2~89
+//       Serial Number (system): C02ZPC3RMD6P
+//       Hardware UUID: 8777F407-B5A9-5170-ABCE-DAD998F9A23B
+//       Provisioning UDID: 8777F407-B5A9-5170-ABCE-DAD998F9A23B
+//       Activation Lock Status: Enabled
+
+
+
+Mac 软件信息
+
+ // system_profiler SPSoftwareDataType
+
+// Software:
+
+//     System Software Overview:
+
+//       System Version: macOS 12.1 (21C52)
+//       Kernel Version: Darwin 21.2.0
+//       Boot Volume: Macintosh HD
+//       Boot Mode: Normal
+//       Computer Name: MATTHEWMU-MB2
+//       User Name: Mangtao (mangtao)
+//       Secure Virtual Memory: Enabled
+//       System Integrity Protection: Enabled
+//       Time since boot: 5 days 9:22

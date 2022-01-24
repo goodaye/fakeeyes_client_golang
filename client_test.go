@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/goodaye/fakeeyes_client_golang/protos/request"
+	"github.com/goodaye/fakeeyes/protos/request"
 )
 
 var client *Client

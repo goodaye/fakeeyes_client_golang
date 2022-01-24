@@ -10,9 +10,10 @@ import (
 	"path"
 	"strings"
 
-	"github.com/goodaye/fakeeyes_client_golang/protos/response"
+	"github.com/goodaye/fakeeyes/protos/response"
 )
 
+// Fakeeyes Client
 type Client struct {
 	Server string
 	Token  string
@@ -21,6 +22,7 @@ type Client struct {
 
 var APIPrefix = "/api/v1"
 
+// NewClient
 func NewClient(server string) (*Client, error) {
 	client := Client{
 		Server: server,
@@ -90,14 +92,4 @@ func (c *Client) httpproxy(api string, req interface{}, resp interface{}) error 
 	}
 	err = json.Unmarshal(body, resp)
 	return err
-}
-
-//
-func (c *Client) NewUser(token string) *User {
-
-	user := User{
-		client: c,
-		token:  token,
-	}
-	return &user
 }

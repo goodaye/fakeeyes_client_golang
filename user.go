@@ -1,8 +1,8 @@
 package client
 
 import (
-	"github.com/goodaye/fakeeyes_client_golang/protos/request"
-	"github.com/goodaye/fakeeyes_client_golang/protos/response"
+	"github.com/goodaye/fakeeyes/protos/request"
+	"github.com/goodaye/fakeeyes/protos/response"
 )
 
 type User struct {
@@ -10,11 +10,21 @@ type User struct {
 	token  string
 }
 
+//
+func (c *Client) NewUser(token string) *User {
+
+	user := User{
+		client: c,
+		token:  token,
+	}
+	return &user
+}
+
 // 用户登陆
 func (c *Client) SignIn(req request.UserSignIn) (user *User, err error) {
 
 	// var err error
-	apiname := "/User/SignIn"
+	apiname := "/UserSignIn"
 
 	type rs struct {
 		Data response.UserLogin
@@ -32,7 +42,7 @@ func (c *Client) SignIn(req request.UserSignIn) (user *User, err error) {
 // 用户注册
 func (c *Client) SignUp(req request.UserSignUp) (user *User, err error) {
 
-	apiname := "/User/SignUp"
+	apiname := "/UserSignUp"
 
 	type rs struct {
 		Data response.UserLogin

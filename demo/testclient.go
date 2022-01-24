@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
+	"github.com/goodaye/fakeeyes/protos/request"
 	client "github.com/goodaye/fakeeyes_client_golang"
-	"github.com/goodaye/fakeeyes_client_golang/protos/request"
 )
 
 func main() {
