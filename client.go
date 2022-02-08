@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"reflect"
 
 	"fmt"
 	"io/ioutil"
@@ -11,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/goodaye/fakeeyes/protos/response"
+	"github.com/gorilla/websocket"
 )
 
 // Fakeeyes Client
@@ -92,4 +94,44 @@ func (c *Client) httpproxy(api string, req interface{}, resp interface{}) error 
 	}
 	err = json.Unmarshal(body, resp)
 	return err
+}
+
+func (c *Client) WSConnect(api string, req interface{}, header http.Header) (conn *websocket.Conn, err error) {
+
+	v := ToQueryValue(req)
+	u := url.URL{
+		Scheme:   "ws",
+		Host:     c.url.Host,
+		Path:     path.Join(APIPrefix, api),
+		RawQuery: v.Encode(),
+	}
+
+	conn, _, err = websocket.DefaultDialer.Dial(u.String(), header)
+	if err != nil {
+		return
+	}
+	return
+}
+
+func ToQueryValue(req interface{}) (val url.Values) {
+
+	val = url.Values{}
+	v := reflect.ValueOf(req)
+	var key string
+	for i := 0; i < v.NumField(); i++ {
+		tagvalue := v.Type().Field(i).Tag.Get("form")
+		if tagvalue != "" {
+			key = strings.TrimSpace(tagvalue)
+		} else {
+			key = v.Type().Field(i).Name
+		}
+		// 如果是有个key value是数组，则需要特殊处理
+		// if v.Field(i).Type().Kind() == reflect.Array || v.Field(i).Type().Kind() == reflect.Slice {
+		// 	v.Field(i).Type().Kind()
+		// } else {
+		// }
+		val.Set(key, v.Field(i).String())
+
+	}
+	return
 }

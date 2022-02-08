@@ -1,8 +1,12 @@
 package client
 
 import (
+	"net/http"
+
+	"github.com/goodaye/fakeeyes/protos"
 	"github.com/goodaye/fakeeyes/protos/request"
 	"github.com/goodaye/fakeeyes/protos/response"
+	"github.com/gorilla/websocket"
 )
 
 type User struct {
@@ -55,5 +59,18 @@ func (c *Client) SignUp(req request.UserSignUp) (user *User, err error) {
 	}
 	user = c.NewUser(resp.Data.Token)
 	return
+}
 
+//
+func (u *User) ConnectDevice(device_uuid string) (conn *websocket.Conn, err error) {
+	api := "/User/ConnectDevice"
+
+	req := request.ConnectDevice{
+		DeviceUUID: device_uuid,
+	}
+
+	header := http.Header{}
+	header.Add(protos.HeaderKey.UserToken, u.token)
+	conn, err = u.client.WSConnect(api, req, header)
+	return
 }
