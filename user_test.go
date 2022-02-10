@@ -48,3 +48,24 @@ func TestConnectDevice(*testing.T) {
 		panic(err)
 	}
 }
+
+func TestListDevice(*testing.T) {
+
+	name := "testuser"
+	req := request.UserSignIn{
+		Name: name,
+	}
+	user, err := client.SignIn(req)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	devs, err := user.ListDevices()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	for _, dev := range devs {
+		fmt.Println(dev)
+	}
+}

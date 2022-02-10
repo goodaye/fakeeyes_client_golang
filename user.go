@@ -35,7 +35,7 @@ func (c *Client) SignIn(req request.UserSignIn) (user *User, err error) {
 	}
 	resp := &rs{}
 
-	err = c.httpproxy(apiname, req, &resp)
+	err = c.httpproxy(apiname, req, &resp, nil)
 	if err != nil {
 		return
 	}
@@ -53,12 +53,20 @@ func (c *Client) SignUp(req request.UserSignUp) (user *User, err error) {
 	}
 	resp := &rs{}
 
-	err = c.httpproxy(apiname, req, &resp)
+	err = c.httpproxy(apiname, req, &resp, nil)
 	if err != nil {
 		return
 	}
 	user = c.NewUser(resp.Data.Token)
 	return
+}
+
+// User request http proxy ,
+func (u *User) httpproxy(api string, req interface{}, resp interface{}) error {
+	var header = http.Header{}
+	header.Add(protos.HeaderKey.UserToken, u.token)
+	err := u.client.httpproxy(api, req, resp, header)
+	return err
 }
 
 //
@@ -72,5 +80,20 @@ func (u *User) ConnectDevice(device_uuid string) (conn *websocket.Conn, err erro
 	header := http.Header{}
 	header.Add(protos.HeaderKey.UserToken, u.token)
 	conn, err = u.client.WSConnect(api, req, header)
+	return
+}
+
+func (u *User) ListDevices() (resp []response.DeviceInfo, err error) {
+
+	api := "/User/ListDevices"
+	type rs struct {
+		Data response.ListDevices
+	}
+	rsresp := &rs{}
+	err = u.httpproxy(api, nil, &rsresp)
+	if err != nil {
+		return
+	}
+	resp = rsresp.Data
 	return
 }

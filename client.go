@@ -39,7 +39,7 @@ func NewClient(server string) (*Client, error) {
 }
 
 //
-func (c *Client) httpproxy(api string, req interface{}, resp interface{}) error {
+func (c *Client) httpproxy(api string, req interface{}, resp interface{}, header http.Header) error {
 	var err error
 
 	relurl := path.Join(APIPrefix, api)
@@ -68,6 +68,9 @@ func (c *Client) httpproxy(api string, req interface{}, resp interface{}) error 
 	// httpreq.Header.Add("Timestamp", fmt.Sprintf("%d", sb.Timestamp))
 	// httpreq.Header.Add("Signature", sb.Sign)
 	// httpreq.Header.Add("Accesskey", sb.Accesskey)
+	if header != nil {
+		httpreq.Header = header
+	}
 	httpclt := http.Client{}
 	httpresp, err := httpclt.Do(httpreq)
 	if err != nil {
@@ -117,6 +120,9 @@ func ToQueryValue(req interface{}) (val url.Values) {
 
 	val = url.Values{}
 	v := reflect.ValueOf(req)
+	if req == nil {
+		return
+	}
 	var key string
 	for i := 0; i < v.NumField(); i++ {
 		tagvalue := v.Type().Field(i).Tag.Get("form")
