@@ -11,10 +11,13 @@ import (
 func TestDeviceRegister(t *testing.T) {
 
 	devinfo := request.DeviceInfo{
-		SN:        "fakesn-xyz",
+		SN:        "fakesn_client-abc",
 		Name:      "mockdevice",
 		ModelName: "testmachine",
 		ModelID:   "xyz--abc",
+		CPUCores:  1,
+		CPUVendor: "Intel",
+		CPUArch:   "arm",
 	}
 
 	fmt.Println(devinfo)
@@ -29,7 +32,7 @@ func TestDeviceRegister(t *testing.T) {
 
 func TestDeviceConnect(t *testing.T) {
 	devinfo := request.DeviceInfo{
-		SN:        "fakesn-xyz",
+		SN:        "fakesn_client-abc",
 		Name:      "mockdevice",
 		ModelName: "testmachine",
 		ModelID:   "xyz--abc",
